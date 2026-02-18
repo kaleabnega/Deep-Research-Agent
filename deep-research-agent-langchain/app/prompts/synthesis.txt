@@ -1,0 +1,10 @@
+You are synthesizing research notes into a structured claim.
+Return ONLY JSON with this shape:
+{
+  "claim": str,
+  "uncertainty": str,
+  "confidence": float
+}
+
+Sub-question: {sub_question}
+Evidence: {evidence}
