@@ -6,7 +6,7 @@ const SOURCE_TYPES = [
   { id: "news", label: "News" },
   { id: "encyclopedia", label: "Encyclopedia" },
   { id: "blog", label: "Blog" },
-  { id: "other", label: "Other" }
+  { id: "other", label: "Other" },
 ];
 
 export default function App() {
@@ -25,14 +25,14 @@ export default function App() {
       source_types: selectedSources,
       time_range: {
         start_year: Number(startYear) || undefined,
-        end_year: Number(endYear) || undefined
-      }
+        end_year: Number(endYear) || undefined,
+      },
     };
   }, [selectedSources, startYear, endYear]);
 
   const toggleSource = (id) => {
     setSelectedSources((prev) =>
-      prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id],
     );
   };
 
@@ -51,7 +51,7 @@ export default function App() {
 
       const res = await fetch("http://127.0.0.1:8000/research", {
         method: "POST",
-        body: formData
+        body: formData,
       });
 
       if (!res.ok) {
@@ -72,13 +72,13 @@ export default function App() {
       <header className="hero">
         <nav className="nav">
           <div className="logo">Deep Research</div>
-          <div className="pill">Agentic Briefing</div>
+          <div className="pill">Agentic Summary</div>
         </nav>
         <div className="hero-content">
           <h1>Deep Research Agent</h1>
           <p>
-            Plan. Execute. Reflect. Build evidence-backed briefings with constraints,
-            citations, and file-aware context.
+            Plan. Execute. Reflect. Build evidence-backed briefings and longer
+            responses with constraints, citations, and file-aware context.
           </p>
         </div>
       </header>
@@ -100,7 +100,7 @@ export default function App() {
 
             <label className="field">
               <span>Mode</span>
-              <select value={mode} onChange={(e) => setMode(e.target.value)} >
+              <select value={mode} onChange={(e) => setMode(e.target.value)}>
                 <option value="briefing">Briefing</option>
                 <option value="essay">Essay</option>
               </select>
@@ -165,7 +165,11 @@ export default function App() {
           {/* <h2>Briefing Output</h2> */}
           <p className="muted">Results stream here when the run completes.</p>
           <div className="report">
-            {report ? <pre>{report}</pre> : <div className="empty">No report yet.</div>}
+            {report ? (
+              <pre>{report}</pre>
+            ) : (
+              <div className="empty">No report yet.</div>
+            )}
           </div>
         </section>
       </main>

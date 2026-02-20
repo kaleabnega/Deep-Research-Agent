@@ -113,6 +113,8 @@ body {
 }
 
 textarea {
+  resize: none;
+  overflow-y: auto;
   min-height: 130px;
   padding: 12px 14px;
   border-radius: 12px;
