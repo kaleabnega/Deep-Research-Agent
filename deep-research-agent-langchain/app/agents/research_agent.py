@@ -325,6 +325,25 @@ class DeepResearchAgent:
                 lines.append(f"- {k}: {v}")
         return "\n".join(lines)
 
+    def _essay(self, task: TaskSpec, plan: Plan, briefing: Briefing) -> str:
+        prompt = self._read_prompt("essay")
+        findings = [
+            {
+                "sub_question": f.sub_question,
+                "claim": f.claim.text,
+                "uncertainty": f.claim.uncertainty,
+                "confidence": f.claim.confidence,
+            }
+            for f in briefing.findings
+        ]
+        evidence = [
+            {"id": i + 1, "title": e.title, "url": e.url, "snippet": e.snippet}
+            for i, e in enumerate(briefing.sources)
+        ]
+        content = self._fill_prompt(prompt, question=task.question, findings=findings, evidence=evidence)
+        response = self.llm.invoke([HumanMessage(content=content)])
+        return response.content
+
     def _memory_text(self) -> str:
         messages = self.memory.load_memory_variables({}).get("history", [])
         if not messages:

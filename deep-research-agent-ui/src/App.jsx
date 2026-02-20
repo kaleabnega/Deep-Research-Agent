@@ -85,8 +85,8 @@ export default function App() {
 
       <main className="grid">
         <section className="card">
-          <h2>Research Query</h2>
-          <p className="muted">Connects to your FastAPI endpoint.</p>
+          {/* <h2>Research Query</h2>
+          <p className="muted">Connects to your FastAPI endpoint.</p> */}
           <form onSubmit={handleSubmit} className="form">
             <label className="field">
               <span>Question</span>
@@ -155,14 +155,14 @@ export default function App() {
             </label>
 
             <button type="submit" className="primary" disabled={loading}>
-              {loading ? "Running research..." : "Generate briefing"}
+              {loading ? "Running research..." : "Generate"}
             </button>
             {error && <div className="error">{error}</div>}
           </form>
         </section>
 
         <section className="card output">
-          <h2>Briefing Output</h2>
+          {/* <h2>Briefing Output</h2> */}
           <p className="muted">Results stream here when the run completes.</p>
           <div className="report">
             {report ? <pre>{report}</pre> : <div className="empty">No report yet.</div>}
