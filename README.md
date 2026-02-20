@@ -1,6 +1,7 @@
-# Agentic AI Workspace
+# Deep Research Agent
+This project pairs a LangChain‑based deep research agent with a clean React UI to generate evidence‑grounded briefings or long‑form essays. It plans, searches, critiques, and revises using configurable evidence constraints, optional file uploads, and source‑typed citations, then presents results through a Vite frontend backed by a FastAPI API.
 
-This repository contains:
+The repository contains:
 
 1) `deep-research-agent-langchain` — the LangChain‑based backend research agent (FastAPI).
 2) `deep-research-agent-ui` — a React + Vite frontend UI that talks to the backend.
@@ -11,7 +12,7 @@ The backend performs deep research with a Plan–Execute–Reflect loop, evidenc
 
 ## Project Overview
 
-### Backend (Deep Research Agent)
+### Backend 
 - **Plan–Execute–Reflect** workflow
 - Evidence constraints: source types, time range, quality
 - Evidence scoring + provenance
