@@ -51,6 +51,7 @@ export default function App() {
       formData.append("constraints", JSON.stringify(constraints));
       files.forEach((file) => formData.append("files", file));
 
+      // Use .env file
       const res = await fetch(`${apiUrl}/research`, {
         method: "POST",
         body: formData,
