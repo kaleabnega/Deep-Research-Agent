@@ -10,6 +10,8 @@ const SOURCE_TYPES = [
 ];
 
 export default function App() {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const [question, setQuestion] = useState("");
   const [startYear, setStartYear] = useState("2020");
   const [endYear, setEndYear] = useState("2025");
@@ -49,7 +51,7 @@ export default function App() {
       formData.append("constraints", JSON.stringify(constraints));
       files.forEach((file) => formData.append("files", file));
 
-      const res = await fetch("http://127.0.0.1:8000/research", {
+      const res = await fetch(`${apiUrl}/research`, {
         method: "POST",
         body: formData,
       });
