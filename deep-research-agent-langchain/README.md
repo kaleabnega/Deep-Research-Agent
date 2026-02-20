@@ -57,3 +57,15 @@ curl -X POST "http://127.0.0.1:8000/research" \
   -F 'question=Your research question' \
   -F 'mode=essay'
 ```
+
+## Production flags
+Set these in your environment to reduce memory usage:
+
+- `DISABLE_MEMORY=1` disables long-term vector memory.
+- `DISABLE_EMBEDDINGS=1` disables embedding models.
+
+Example:
+```
+DISABLE_MEMORY=1
+DISABLE_EMBEDDINGS=1
+```

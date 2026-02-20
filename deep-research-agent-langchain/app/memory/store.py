@@ -1,7 +1,10 @@
 from typing import List
+from app.config import DISABLE_MEMORY, DISABLE_EMBEDDINGS
 
 
 def build_vectorstore(docs: List[str]):
+    if DISABLE_MEMORY or DISABLE_EMBEDDINGS:
+        return None
     try:
         from langchain_community.vectorstores import Chroma
         from langchain_community.embeddings import HuggingFaceEmbeddings
