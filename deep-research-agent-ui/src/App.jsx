@@ -16,6 +16,7 @@ export default function App() {
   const [selectedSources, setSelectedSources] = useState(["peer_reviewed"]);
   const [files, setFiles] = useState([]);
   const [report, setReport] = useState("");
+  const [mode, setMode] = useState("briefing");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -44,6 +45,7 @@ export default function App() {
     try {
       const formData = new FormData();
       formData.append("question", question.trim());
+      formData.append("mode", mode);
       formData.append("constraints", JSON.stringify(constraints));
       files.forEach((file) => formData.append("files", file));
 
@@ -94,6 +96,14 @@ export default function App() {
                 placeholder="Ask a deep research question..."
                 required
               />
+            </label>
+
+            <label className="field">
+              <span>Mode</span>
+              <select value={mode} onChange={(e) => setMode(e.target.value)} >
+                <option value="briefing">Briefing</option>
+                <option value="essay">Essay</option>
+              </select>
             </label>
 
             <div className="row">

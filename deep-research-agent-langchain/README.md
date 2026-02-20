@@ -47,3 +47,13 @@ curl -X POST "http://127.0.0.1:8000/research" \
   -F 'constraints={"source_types":["peer_reviewed"],"time_range":{"start_year":2020,"end_year":2025}}' \
   -F 'files=@/path/to/file.pdf'
 ```
+
+## Essay mode
+Use `mode=essay` to generate a long-form response.
+
+Example:
+```bash
+curl -X POST "http://127.0.0.1:8000/research" \
+  -F 'question=Your research question' \
+  -F 'mode=essay'
+```

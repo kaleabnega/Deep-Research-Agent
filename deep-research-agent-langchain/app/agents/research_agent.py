@@ -56,7 +56,7 @@ class DeepResearchAgent:
         )
         self.memory = ConversationBufferMemory(return_messages=True)
 
-    def run(self, question: str, file_paths: List[str], constraints: Dict[str, Any] | None) -> str:
+    def run(self, question: str, file_paths: List[str], constraints: Dict[str, Any] | None, mode: str = "briefing") -> str:
         task = TaskSpec(question=question, evidence_constraints=self._to_constraints(constraints))
         self.memory.save_context({"input": question}, {"output": ""})
         plan = self._plan(task)
@@ -69,12 +69,14 @@ class DeepResearchAgent:
             if not feedback.get("follow_up_queries"):
                 break
         final = final or self._synthesize(task, plan, notes)
+        if mode == "essay":
+            return self._essay(task, plan, final)
         return self._format(final)
 
     def _plan(self, task: TaskSpec) -> Plan:
         prompt = self._read_prompt("plan")
-        content = prompt.format(question=task.question, history=self._memory_text())
-        response = self.llm([HumanMessage(content=content)])
+        content = self._fill_prompt(prompt, question=task.question, history=self._memory_text())
+        response = self.llm.invoke([HumanMessage(content=content)])
         data = self._parse_json(response.content)
         sub_questions = [SubQuestion(**item) for item in data.get("sub_questions", [])]
         if not sub_questions:
@@ -145,7 +147,8 @@ class DeepResearchAgent:
 
     def _reflect(self, plan: Plan, briefing: Briefing) -> Dict[str, Any]:
         prompt = self._read_prompt("critic")
-        content = prompt.format(
+        content = self._fill_prompt(
+            prompt,
             sub_questions=[s.text for s in plan.sub_questions],
             overview=briefing.overview,
             findings=[f.claim.text for f in briefing.findings],
@@ -153,7 +156,7 @@ class DeepResearchAgent:
             sources=[e.url for e in briefing.sources],
             constraints=plan.evidence_constraints,
         )
-        response = self.llm([HumanMessage(content=content)])
+        response = self.llm.invoke([HumanMessage(content=content)])
         data = self._parse_json(response.content)
         if data.get("evidence_constraints"):
             logger.info("Inferred evidence constraints: %s", data["evidence_constraints"])
@@ -210,14 +213,21 @@ class DeepResearchAgent:
     def _llm_synthesize(self, sub_question: str, evidence: List[Evidence]) -> Dict[str, Any]:
         prompt = self._read_prompt("synthesis")
         payload = [{"url": e.url, "title": e.title, "snippet": e.snippet} for e in evidence]
-        content = prompt.format(sub_question=sub_question, evidence=payload)
-        response = self.llm([HumanMessage(content=content)])
+        content = self._fill_prompt(prompt, sub_question=sub_question, evidence=payload)
+        response = self.llm.invoke([HumanMessage(content=content)])
         return self._parse_json(response.content)
 
     def _read_prompt(self, name: str) -> str:
         path = f"app/prompts/{name}.txt"
         with open(path, "r", encoding="utf-8") as f:
             return f.read()
+
+    def _fill_prompt(self, template: str, **kwargs) -> str:
+        # Safe replacement for prompt placeholders without formatting JSON braces.
+        text = template
+        for key, value in kwargs.items():
+            text = text.replace("{" + key + "}", str(value))
+        return text
 
     def _parse_json(self, text: str) -> Dict[str, Any]:
         try:

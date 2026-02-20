@@ -1,0 +1,9 @@
+You are writing a deep research essay from structured findings. Write a long-form, cohesive response.
+Requirements:
+- Use the findings and evidence provided.
+- Include citations inline as [1], [2], etc.
+- End with a Sources section listing the citations.
+
+Question: {question}
+Findings: {findings}
+Evidence: {evidence}

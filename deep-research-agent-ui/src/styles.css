@@ -206,3 +206,10 @@ input[type="file"] {
     padding-right: 20px;
   }
 }
+
+select {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-family: inherit;
+}
