@@ -1,5 +1,5 @@
 # Deep Research Agent
-This project pairs a LangChain‑based deep research agent with a clean React UI to generate evidence‑grounded briefings or long‑form essays. It plans, searches, critiques, and revises using configurable evidence constraints, optional file uploads, and source‑typed citations, then presents results through a Vite frontend backed by a FastAPI API.
+This project pairs a LangChain‑based deep research agent with a React UI to generate evidence‑grounded briefings or long‑form essays. It plans, searches, critiques, and revises using configurable evidence constraints, optional file uploads, and source‑typed citations, then presents results through a Vite frontend backed by a FastAPI API.
 
 The repository contains:
 
