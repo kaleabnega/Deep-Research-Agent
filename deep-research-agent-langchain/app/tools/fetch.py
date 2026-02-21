@@ -5,7 +5,8 @@ from typing import Dict
 
 def fetch_page(url: str, timeout: int = 15, max_chars: int = 2000) -> Dict[str, str]:
     res = requests.get(url, timeout=timeout, headers={"User-Agent": "Mozilla/5.0"})
-    res.raise_for_status()
+    if res.status_code >= 400:
+        return {"title": url, "content": ""}
     content_type = res.headers.get("Content-Type", "")
     text = res.text
     title = ""
