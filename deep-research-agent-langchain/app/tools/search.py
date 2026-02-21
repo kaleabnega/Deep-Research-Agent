@@ -15,7 +15,7 @@ def search_web(query: str, max_results: int = 5, constraints: Dict[str, Any] | N
         return _serpapi_search(query, max_results)
     if TAVILY_API_KEY:
         return _tavily_search(query, max_results)
-    return _duckduckgo_search(query, max_results)
+    return []
 
 
 def _serpapi_search(query: str, max_results: int) -> List[str]:
@@ -46,6 +46,7 @@ def _tavily_search(query: str, max_results: int) -> List[str]:
 
 
 def _duckduckgo_search(query: str, max_results: int) -> List[str]:
+    # Deprecated: prefer SerpAPI or Tavily in production.
     params = {"q": query}
     res = requests.get("https://duckduckgo.com/html/", params=params, timeout=15)
     res.raise_for_status()
