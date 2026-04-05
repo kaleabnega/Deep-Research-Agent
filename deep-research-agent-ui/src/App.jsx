@@ -75,7 +75,7 @@ export default function App() {
       <header className="hero">
         <nav className="nav">
           {/* <div className="logo">Deep Research</div> */}
-          <div className="pill">Agentic Summary</div>
+          {/* <div className="pill">Agentic Summary</div> */}
         </nav>
         <div className="hero-content">
           <h1>Deep Research Agent</h1>
